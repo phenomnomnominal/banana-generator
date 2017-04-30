@@ -1,6 +1,9 @@
 language: node_js
 node_js:
   - "node"
+addons:
+  code_climate:
+    repo_token: b46ece57255d8c8d517de88930814bc985510108ef517700ee9df220e9e81141
 script: yarn run build
 after_success:
   - npm install -g codeclimate-test-reporter
