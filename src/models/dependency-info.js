@@ -1,6 +1,6 @@
 // Utilities:
 import { error } from '../utilities/logger';
-import { findDecorator, getNodeFilePath } from '../utilities/utilities';
+import { findDecorator } from '../utilities/utilities';
 
 export class DependencyInfo {
     constructor (parameter) {
@@ -10,7 +10,8 @@ export class DependencyInfo {
         try {
             this.name = type.typeName.text;
         } catch (e) {
-            error(`Could not find type of dependency "${instanceName}" at "${getNodeFilePath(parameter)}"`);
+            let { fileName } = parameter.getSourceFile();
+            error(`Could not find type of dependency "${instanceName}" at "${fileName}"`);
         }
         this.optional = !!findDecorator(decorators, 'Optional');
     }

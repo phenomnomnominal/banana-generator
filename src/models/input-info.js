@@ -2,8 +2,17 @@
 import { getChecker } from '../get-checker';
 
 export class InputInfo {
-    constructor (member) {
+    constructor (input, member) {
         this.name = member.name.text;
+
+        let args = input.expression.arguments;
+        if (args) {
+            let [rename] = args;
+            if (rename) {
+                this.name = rename.text;
+            }
+        }
+
         this.type = getType(member);
         this.twoWay = false;
     }

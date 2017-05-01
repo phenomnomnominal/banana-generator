@@ -21,10 +21,7 @@ export function findClasses (sourceFile) {
 
         if (node.kind === typescript.SyntaxKind.ClassDeclaration) {
             let classInfo = new ClassInfo(node);
-            let { inputs, outputs, selector } = classInfo;
-            if (inputs.length || outputs.length || selector) {
-                classes.push(classInfo);
-            }
+            classes.push(classInfo);
             return;
         }
     }

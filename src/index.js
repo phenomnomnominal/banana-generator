@@ -1,7 +1,6 @@
 // Utilities:
 import fs from 'fs-extra';
 import { error, info } from './utilities/logger';
-import { getFilePath } from './utilities/utilities';
 
 // Dependencies:
 import { findClasses } from './find-classes';
@@ -15,15 +14,14 @@ export function banana (options) {
 
     let files = findFiles(options.in);
     files.forEach(file => {
-        let filePath = getFilePath(file);
         try {
             let classes = findClasses(file);
             let enums = findEnums(file);
             if (classes.length || enums.length) {
-                results[filePath] = { classes, enums };
+                results[file.fileName] = { classes, enums };
             }
         } catch (e) {
-            error(`Oops! Error in "${filePath}":`);
+            error(`Oops! Error in "${file.fileName}":`);
             error(e.message);
         }
     });

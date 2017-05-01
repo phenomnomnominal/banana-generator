@@ -1,6 +1,6 @@
 // Utilities:
 import { error } from '../utilities/logger';
-import { findConstructor, findDecorator, findDecorators, findMembers, findProperty, getNodeFilePath } from '../utilities/utilities';
+import { findConstructor, findDecorator, findDecorators, findMembers, findProperty } from '../utilities/utilities';
 
 // Dependencies:
 import { getChecker } from '../get-checker';
@@ -27,6 +27,7 @@ export class ClassInfo {
             this.selector = findSelector(component, directive);
         }
 
+        this.implements = findImplements(symbol);
         this.dependencies = findDependencies(members);
         this.inputs = findInputs(members);
         this.outputs = findOutputs(this.inputs, members);
@@ -41,23 +42,34 @@ function findDependencies (members) {
     return [];
 }
 
+function findImplements (symbol) {
+    let { declarations } = symbol;
+    let [declaration] = declarations;
+    let { heritageClauses } = declaration;
+    if (heritageClauses) {
+        let [heritage] = heritageClauses;
+        return heritage.types.map(type => type.expression.text);
+    }
+    return [];
+}
+
 function findInputs (members) {
     let inputs = [];
     members.forEach(member => {
         let input = findDecorator(member.decorators, 'Input');
         if (input) {
-            inputs.push(new InputInfo(member));
+            inputs.push(new InputInfo(input, member));
         }
     });
     return inputs;
 }
 
-function findOutputs (members) {
+function findOutputs (inputs, members) {
     let outputs = [];
     members.forEach(member => {
         let output = findDecorator(member.decorators, 'Output');
         if (output) {
-            outputs.push(new OutputInfo(member));
+            outputs.push(new OutputInfo(output, member, inputs));
         }
     });
     return outputs;
@@ -70,6 +82,7 @@ function findSelector (component, directive) {
         let selector = findProperty(decoratorProperties.properties, 'selector');
         return selector.initializer.text;
     } catch (e) {
-        error(`Could not find "selector" at "${getNodeFilePath(decorator)}"`);
+        let { fileName } = decorator.getSourceFile();
+        error(`Could not find "selector" at "${fileName}"`);
     }
 }

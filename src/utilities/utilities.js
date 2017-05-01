@@ -1,6 +1,3 @@
-// Utilities:
-import path from 'path';
-
 // Dependencies:
 import typescript from 'typescript';
 
@@ -40,14 +37,6 @@ export function findProperty (properties, name) {
         });
     }
     return found;
-}
-
-export function getNodeFilePath (node) {
-    return getFilePath(node.getSourceFile());
-}
-
-export function getFilePath (sourceFile) {
-    return path.resolve(process.cwd(), sourceFile.fileName);
 }
 
 export function isNodeExported (node) {

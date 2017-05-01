@@ -10,6 +10,8 @@ export class EnumInfo {
         let symbol = checker.getSymbolAtLocation(node.name);
         let members = findMembers(symbol);
 
+        this.name = symbol.name;
+
         this.values = findValues(members);
     }
 }
