@@ -1,6 +1,15 @@
-// Utilities:
+// Dependencies:
 import { error } from '../utilities/logger';
-import { findDecorator } from '../utilities/utilities';
+import { findConstructor, findDecorator } from '../utilities/utilities';
+
+export function findDependencies (members) {
+    let cons = findConstructor(members);
+    if (cons) {
+        return cons.parameters.map(parameter => new DependencyInfo(parameter));
+    }
+    return [];
+}
+
 
 export class DependencyInfo {
     constructor (parameter) {

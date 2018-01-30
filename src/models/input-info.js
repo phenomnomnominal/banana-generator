@@ -1,5 +1,17 @@
 // Dependencies:
 import { getChecker } from '../get-checker';
+import { findDecorator } from '../utilities/utilities';
+
+export function findInputs (members) {
+    let inputs = [];
+    members.forEach(member => {
+        let input = findDecorator(member.decorators, 'Input');
+        if (input) {
+            inputs.push(new InputInfo(input, member));
+        }
+    });
+    return inputs;
+}
 
 export class InputInfo {
     constructor (input, member) {

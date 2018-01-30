@@ -1,8 +1,6 @@
-// Utilities:
-import { findMembers } from '../utilities/utilities';
-
 // Dependencies:
 import { getChecker } from '../get-checker';
+import { findMembers } from '../utilities/utilities';
 
 export class EnumInfo {
     constructor (node) {

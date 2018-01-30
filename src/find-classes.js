@@ -1,9 +1,7 @@
-// Utilities:
-import { isNodeExported } from './utilities/utilities';
-
 // Dependencies:
 import typescript from 'typescript';
 import { ClassInfo } from './models/class-info';
+import { isNodeExported } from './utilities/utilities';
 
 export function findClasses (sourceFile) {
     let classes = [];

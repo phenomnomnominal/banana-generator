@@ -1,11 +1,10 @@
-// Utilities:
+// Dependencies:
 import fs from 'fs-extra';
 import { error, info } from './utilities/logger';
-
-// Dependencies:
 import { findClasses } from './find-classes';
 import { findEnums } from './find-enums';
 import { findFiles } from './find-files';
+import { findRelationships } from './find-relationships';
 
 export function banana (options) {
     info('Generating component info...');
@@ -17,14 +16,23 @@ export function banana (options) {
         try {
             let classes = findClasses(file);
             let enums = findEnums(file);
-            if (classes.length || enums.length) {
-                results[file.fileName] = { classes, enums };
+            let result = {};
+            if (classes.length) {
+                result.classes = classes;
+            }
+            if (enums.length) {
+                result.enums = enums;
+            }
+            if (Object.keys(result).length) {
+                results[file.fileName] = result;
             }
         } catch (e) {
             error(`Oops! Error in "${file.fileName}":`);
             error(e.message);
         }
     });
+
+    results = findRelationships(results);
 
     info('Done!');
 

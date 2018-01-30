@@ -1,9 +1,7 @@
-// Utilities:
-import { isNodeExported } from './utilities/utilities';
-
 // Dependencies:
 import typescript from 'typescript';
 import { EnumInfo } from './models/enum-info';
+import { isNodeExported } from './utilities/utilities';
 
 export function findEnums (sourceFile) {
     let enums = [];

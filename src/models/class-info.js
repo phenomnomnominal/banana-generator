@@ -1,12 +1,13 @@
 // Utilities:
 import { error } from '../utilities/logger';
-import { findConstructor, findDecorator, findDecorators, findMembers, findProperty } from '../utilities/utilities';
+import { findDecorator, findDecorators, findMembers, findProperty } from '../utilities/utilities';
 
 // Dependencies:
 import { getChecker } from '../get-checker';
-import { DependencyInfo } from './dependency-info';
-import { InputInfo } from './input-info';
-import { OutputInfo } from './output-info';
+import { findContent } from './content-info';
+import { findDependencies } from './dependency-info';
+import { findInputs } from './input-info';
+import { findOutputs } from './output-info';
 
 export class ClassInfo {
     constructor (node) {
@@ -19,9 +20,15 @@ export class ClassInfo {
 
         let component = findDecorator(decorators, 'Component');
         this.isComponent = !!component;
+        if (this.isComponent) {
+            this.content = findContent(component);
+        }
 
         let directive = findDecorator(decorators, 'Directive');
         this.isDirective = !!directive;
+
+        let module = findDecorator(decorators, 'NgModule');
+        this.isModule = !!module;
 
         if (this.isComponent || this.isDirective) {
             this.selector = findSelector(component, directive);
@@ -34,14 +41,6 @@ export class ClassInfo {
     }
 }
 
-function findDependencies (members) {
-    let cons = findConstructor(members);
-    if (cons) {
-        return cons.parameters.map(parameter => new DependencyInfo(parameter));
-    }
-    return [];
-}
-
 function findImplements (symbol) {
     let { declarations } = symbol;
     let [declaration] = declarations;
@@ -51,28 +50,6 @@ function findImplements (symbol) {
         return heritage.types.map(type => type.expression.text);
     }
     return [];
-}
-
-function findInputs (members) {
-    let inputs = [];
-    members.forEach(member => {
-        let input = findDecorator(member.decorators, 'Input');
-        if (input) {
-            inputs.push(new InputInfo(input, member));
-        }
-    });
-    return inputs;
-}
-
-function findOutputs (inputs, members) {
-    let outputs = [];
-    members.forEach(member => {
-        let output = findDecorator(member.decorators, 'Output');
-        if (output) {
-            outputs.push(new OutputInfo(output, member, inputs));
-        }
-    });
-    return outputs;
 }
 
 function findSelector (component, directive) {
