@@ -29,6 +29,9 @@ export class ClassInfo {
 
         let module = findDecorator(decorators, 'NgModule');
         this.isModule = !!module;
+        if (this.isModule) {
+            this.declarations = findDeclarations(module);
+        }
 
         if (this.isComponent || this.isDirective) {
             this.selector = findSelector(component, directive);
@@ -61,5 +64,16 @@ function findSelector (component, directive) {
     } catch (e) {
         let { fileName } = decorator.getSourceFile();
         error(`Could not find "selector" at "${fileName}"`);
+    }
+}
+
+function findDeclarations (module) {
+    try {
+        let [decoratorProperties] = module.expression.arguments;
+        let declarations = findProperty(decoratorProperties.properties, 'declarations');
+        return declarations.initializer.elements.map(element => element.text);
+    } catch (e) {
+        let { fileName } = module.getSourceFile();
+        error(`Could not find "declarations" at "${fileName}"`);
     }
 }

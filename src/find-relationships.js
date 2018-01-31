@@ -13,6 +13,7 @@ export function findRelationships (results) {
 
     let allComponents = allClasses.filter(c => c.isComponent);
     let allDirectives = allClasses.filter(c => c.isDirectives);
+    let allModules = allClasses.filter(c => c.isModule);
 
     allComponents.forEach(component => {
         component.parentComponents = [];
@@ -31,6 +32,8 @@ export function findRelationships (results) {
                 component.parentDirectives.push(dependency);
             }
         });
+
+        component.module = allModules.find(m => m.declarations && m.declarations.find(d => d === component.name))
     });
 
     return results;
