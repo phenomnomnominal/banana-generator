@@ -12,7 +12,7 @@
     "url": "https://github.com/phenomnomnominal/banana-generator/issues",
     "email": "craigspence0@gmail.com"
   },
-  "main": "dist/index.js",
+  "main": "dist/src/index.js",
   "watch": {
     "build": "src/**/*.js"
   },
