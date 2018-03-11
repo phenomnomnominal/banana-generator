@@ -2,7 +2,7 @@
 import { Decorator } from 'typescript';
 
 export class DependencyInfo {
-    public optional: boolean;
+    public optional: boolean = false;
     constructor (
         public name: string
     ) { }

@@ -1,6 +1,6 @@
 // Dependencies:
 import { Injectable } from 'injection-js';
-import { ClassInfo, ComponentInfo, DirectiveInfo, EnumInfo, FileInfo, ModuleInfo } from '../parsers';
+import { ClassInfo, ClassTypeEnum, ComponentInfo, DirectiveInfo, EnumInfo, FileInfo, ModuleInfo } from '../parsers';
 
 @Injectable()
 export class FileLinker {
@@ -8,24 +8,25 @@ export class FileLinker {
         let allClasses: Array<ClassInfo> = [];
 
         files.forEach(file => {
-            let { classes, enums } = file;
+            let { classes } = file;
             if (classes) {
                 allClasses = [...allClasses, ...classes];
             }
         });
 
-        let allDirectives = allClasses.filter(c => c instanceof DirectiveInfo) as Array<DirectiveInfo>;
-        let allComponents = allDirectives.filter(c => c instanceof ComponentInfo) as Array<ComponentInfo>;
-        let allModules = allClasses.filter(c => c instanceof ModuleInfo) as Array<ModuleInfo>;
+        let allComponents = allClasses.filter(c => c.classType === ClassTypeEnum.component) as Array<ComponentInfo>;
+        let allDirectives = allClasses.filter(c => c.classType === ClassTypeEnum.directive) as Array<DirectiveInfo>;
+        let allModules = allClasses.filter(c => c.classType === ClassTypeEnum.module) as Array<ModuleInfo>;
 
-        this._findInjectedComponents(allComponents);
-        this._findInjectedDirectives(allComponents, allDirectives);
+        this._findInjectedComponentsForComponents(allComponents);
+        this._findInjectedDirectivesForDirectives(allDirectives);
+        this._findInjectedDirectivesForComponents(allComponents, allDirectives);
         this._findModules(allComponents, allModules);
 
         return files;
     }
 
-    private _findInjectedComponents (components: Array<ComponentInfo>): void {
+    private _findInjectedComponentsForComponents (components: Array<ComponentInfo>): void {
         components.forEach(component => this._findInjectedComponent(component, components));
     }
 
@@ -39,16 +40,20 @@ export class FileLinker {
         });
     }
 
-    private _findInjectedDirectives (components: Array<ComponentInfo>, directives: Array<DirectiveInfo>): void {
+    private _findInjectedDirectivesForComponents (components: Array<ComponentInfo>, directives: Array<DirectiveInfo>): void {
         components.forEach(component => this._findInjectedDirective(component, directives));
     }
 
-    private _findInjectedDirective (component: ComponentInfo, directives: Array<DirectiveInfo>): void {
-        component.dependencies.map(dependency => {
+    private _findInjectedDirectivesForDirectives (directives: Array<DirectiveInfo>): void {
+        directives.forEach(directive => this._findInjectedDirective(directive, directives));
+    }
+
+    private _findInjectedDirective (directive: DirectiveInfo, directives: Array<DirectiveInfo>): void {
+        directive.dependencies.map(dependency => {
             let directiveDependency = directives.find(d => d.name === dependency.name);
             if (directiveDependency) {
-                directiveDependency.canAffect.push(component);
-                component.injectedDirectives.push(dependency);
+                directiveDependency.canAffect.push(directive);
+                directive.injectedDirectives.push(dependency);
             }
         });
     }

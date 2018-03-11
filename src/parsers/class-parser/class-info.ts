@@ -1,7 +1,10 @@
 // Dependencies:
+import { ClassTypeEnum } from './class-type.enum';
 import { DependencyInfo } from './dependency-info';
 
 export class ClassInfo {
+    public classType = ClassTypeEnum.class;
+
     public dependencies: Array<DependencyInfo> = [];
     public implements: Array<string>;
 

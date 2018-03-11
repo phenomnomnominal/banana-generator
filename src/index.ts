@@ -1,11 +1,13 @@
 // Dependencies:
 import { ReflectiveInjector } from 'injection-js';
 import 'reflect-metadata';
-
-// API:
-import { Banana } from './banana/banana';
+import { Banana } from './banana';
 import { ClassParser, ComponentParser, ContentParser, DirectiveParser, EnumParser, FileInfo, FileParser, InputParser, ModuleParser, OutputParser } from './parsers';
 import { ASTHelper, FileLinker, FileReader, Logger, LoggerOptions, TypeHelper } from './utilities';
+
+export * from './banana';
+export * from './parsers';
+export * from './utilities';
 
 let injector = ReflectiveInjector.resolveAndCreate([
     ASTHelper,

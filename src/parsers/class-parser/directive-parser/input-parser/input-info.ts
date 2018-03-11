@@ -14,7 +14,7 @@ export class InputInfo {
 
         let [rename] = (input.expression as CallExpression).arguments;
         if (rename) {
-            this.name = rename.getText();
+            this.name = rename.getText().replace(/'/g, '');
         }
     }
 

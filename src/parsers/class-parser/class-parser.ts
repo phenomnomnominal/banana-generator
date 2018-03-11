@@ -29,15 +29,7 @@ export class ClassParser {
     }
 
     private _visit (classes: Array<ClassInfo>, node: Node) {
-        if (!this._astHelper.isNodeExported(node)) {
-            return;
-        }
-
         const { kind } = node;
-
-        if (kind === SyntaxKind.ModuleDeclaration) {
-            forEachChild(node, child => this._visit(classes, child));
-        }
 
         if (kind === SyntaxKind.ClassDeclaration) {
             classes.push(this._getClassInfo(node as ClassDeclaration));

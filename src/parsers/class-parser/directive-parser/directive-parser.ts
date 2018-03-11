@@ -33,7 +33,7 @@ export class DirectiveParser {
         }
         let selectors = selector.initializer.getText();
         return selectors.split(',')
-            .map(s => s.replace(/\[|\]/g, ' '))
+            .map(s => s.replace(/'/g, ''))
             .map(s => s.replace('  ', ' '))
             .map(s => s.trim());
     }

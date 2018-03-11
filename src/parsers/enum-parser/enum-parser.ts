@@ -22,15 +22,7 @@ export class EnumParser {
     }
 
     private _visit (enums: Array<EnumInfo>, node: Node) {
-        if (!this._astHelper.isNodeExported(node)) {
-            return;
-        }
-
         const { kind } = node;
-
-        if (kind === SyntaxKind.ModuleDeclaration) {
-            forEachChild(node, child => this._visit(enums, child));
-        }
 
         if (kind === SyntaxKind.EnumDeclaration) {
             enums.push(this._getEnumInfo(node as EnumDeclaration));

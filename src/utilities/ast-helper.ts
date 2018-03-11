@@ -43,13 +43,4 @@ export class ASTHelper {
     public findValues (members: Array<EnumMember | ClassElement>): Array<string> {
         return members.map(member => (member.name as Identifier).text);
     }
-
-    public isNodeExported (node: Node) {
-        const { flags, parent } = node;
-
-        // tslint:disable:no-bitwise
-        const isExport = (flags & NodeFlags.ExportContext) !== 0;
-        const isParentFile = parent && parent.kind === SyntaxKind.SourceFile;
-        return isExport || isParentFile;
-    }
 }
