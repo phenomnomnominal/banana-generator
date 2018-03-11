@@ -1,14 +1,12 @@
 #!/usr/bin/env node
-'use strict';
+const banana = require('../dist/index');
+const minimist = require('minimist');
 
-var banana = require('../dist/index');
-var logger = require('../dist/utilities/logger');
-var minimist = require('minimist');
+const options = minimist(process.argv.slice(2));
 
-var options = minimist(process.argv.slice(2));
-
-var result = banana.banana(options);
-if (!options.out) {
-    logger.info('RESULT:');
-    console.log(JSON.stringify(result, null, '  '));
-}
+banana.banana(options)
+.then(result => {
+    if (!options.out) {
+        console.log(JSON.stringify(result, null, '  '));
+    }
+});

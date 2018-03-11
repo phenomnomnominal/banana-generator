@@ -1,3 +1,6 @@
 --recursive
---require babel-register
 --colors
+--compilers ts-node/register
+--require source-map-support/register
+--full-trace
+--bail
