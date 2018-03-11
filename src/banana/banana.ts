@@ -24,6 +24,7 @@ export class Banana {
             .map(sourceFile => this._fileParser.parseFile(sourceFile))
             .filter(file => file != null) as Array<FileInfo>;
 
+        this._logger.info('Creating links...');
         this._fileLinker.linkFiles(files);
 
         let results: BananaResults = {};

@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-const banana = require('../dist/index');
+const banana = require('../dist/src/index');
 const minimist = require('minimist');
 
 const options = minimist(process.argv.slice(2));

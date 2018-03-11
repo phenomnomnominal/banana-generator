@@ -1,9 +1,14 @@
 // Dependencies:
 import { Injectable } from 'injection-js';
 import { ClassInfo, ClassTypeEnum, ComponentInfo, DirectiveInfo, EnumInfo, FileInfo, ModuleInfo } from '../parsers';
+import { Logger } from './logger';
 
 @Injectable()
 export class FileLinker {
+    constructor (
+        private _logger: Logger
+    ) { }
+
     public linkFiles (files: Array<FileInfo>): Array<FileInfo> {
         let allClasses: Array<ClassInfo> = [];
 
@@ -67,7 +72,7 @@ export class FileLinker {
             return !!(m.declarations && m.declarations.find(d => d === component.name));
         });
         if (found == null) {
-            throw new Error(`Could not find "module" for "${component.name}"`);
+            this._logger.warn(`Could not find "module" for "${component.name}"`);
         }
         component.module = found;
     }
