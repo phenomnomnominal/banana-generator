@@ -1,8 +1,10 @@
+.nyc_output/
 node_modules/
 reports/
 src/
 .codeclimate.yml
-.eslintrc.json
-.istanbulrc.json
 .mocharc
 .travis.yml
+out.json
+tsconfig.json
+tslint.json
