@@ -3,8 +3,8 @@ import { ClassInfo } from '../class-parser';
 import { EnumInfo } from '../enum-parser';
 
 export class FileInfo {
-    public classes: Array<ClassInfo>;
-    public enums: Array<EnumInfo>;
+    public classes: Array<ClassInfo> = [];
+    public enums: Array<EnumInfo> = [];
 
     constructor (
         public fileName: string,

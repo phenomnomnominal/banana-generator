@@ -46,4 +46,4 @@ let injector = ReflectiveInjector.resolveAndCreate([
 ]);
 
 const bananaInstance: Banana = injector.get(Banana) as Banana;
-export const banana = bananaInstance.banana.bind(bananaInstance);
+export const banana: typeof Banana.prototype.banana = bananaInstance.banana.bind(bananaInstance);

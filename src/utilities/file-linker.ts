@@ -1,6 +1,7 @@
 // Dependencies:
 import { Injectable } from 'injection-js';
 import { ClassInfo, ClassTypeEnum, ComponentInfo, DirectiveInfo, EnumInfo, FileInfo, ModuleInfo } from '../parsers';
+import { findClassesFromFiles } from './api-helper';
 import { Logger } from './logger';
 
 @Injectable()
@@ -10,14 +11,7 @@ export class FileLinker {
     ) { }
 
     public linkFiles (files: Array<FileInfo>): Array<FileInfo> {
-        let allClasses: Array<ClassInfo> = [];
-
-        files.forEach(file => {
-            let { classes } = file;
-            if (classes) {
-                allClasses = [...allClasses, ...classes];
-            }
-        });
+        let allClasses = findClassesFromFiles(files);
 
         let allComponents = allClasses.filter(c => c.classType === ClassTypeEnum.component) as Array<ComponentInfo>;
         let allDirectives = allClasses.filter(c => c.classType === ClassTypeEnum.directive) as Array<DirectiveInfo>;

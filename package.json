@@ -1,7 +1,7 @@
 {
   "name": "banana-generator",
   "description": "Basic ANgulAr component iNformAtion generator.",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "author": "Craig Spence <craigspence0@gmail.com>",
   "license": "MIT",
   "repository": {
