@@ -8,15 +8,15 @@ import { createSourceFile, ScriptTarget } from 'typescript';
 
 @Injectable()
 export class FileReader {
-    public async readFiles (pattern: string) {
+    public readFiles (pattern: string) {
         let files = glob.sync(path.resolve(process.cwd(), pattern));
 
-        return Promise.all(files.map(file => {
+        return files.map(file => {
             let content = this.readFile(file);
             let sourceFile = createSourceFile(file, content, ScriptTarget.ES5, true);
             (<any>typescript).bindSourceFile(sourceFile, {});
             return sourceFile;
-        }));
+        });
     }
 
     public readFile (path: string) {

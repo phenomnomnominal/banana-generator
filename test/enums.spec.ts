@@ -2,10 +2,10 @@
 import { create, expect } from './test-setup';
 
 describe('banana-generator - enums:', () => {
-    it('should correctly parse information about enums', async () => {
+    it('should correctly parse information about enums', () => {
         let banana = create();
 
-        let result = await banana({ in: './test/fixtures/enums/**/*.ts' });
+        let result = banana({ in: './test/fixtures/enums/**/*.ts' });
         let [enumFile] = Object.values(result);
         let [testEnum] = enumFile.enums;
 

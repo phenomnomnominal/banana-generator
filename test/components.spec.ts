@@ -3,10 +3,10 @@ import { ClassTypeEnum, ComponentInfo, DirectiveInfo } from '../src';
 import { create, expect } from './test-setup';
 
 describe('banana-generator - components:', () => {
-    it('should correctly parse information about components', async () => {
+    it('should correctly parse information about components', () => {
         let banana = create();
 
-        let result = await banana({ in: './test/fixtures/components/default/*.ts' });
+        let result = banana({ in: './test/fixtures/components/default/*.ts' });
         let [componentFile] = Object.values(result);
         let [testComponent] = componentFile.classes as Array<ComponentInfo>;
 
@@ -14,10 +14,10 @@ describe('banana-generator - components:', () => {
         expect(testComponent.classType).to.equal(ClassTypeEnum.component);
     });
 
-    it('should correctly parse information about components with external templates', async () => {
+    it('should correctly parse information about components with external templates', () => {
         let banana = create();
 
-        let result = await banana({ in: './test/fixtures/components/external-template/*.ts' });
+        let result = banana({ in: './test/fixtures/components/external-template/*.ts' });
         let [componentFile] = Object.values(result);
         let [testComponent] = componentFile.classes as Array<ComponentInfo>;
         let [content] = testComponent.content;
@@ -25,10 +25,10 @@ describe('banana-generator - components:', () => {
         expect(content.isDefault).to.equal(true);
     });
 
-    it('should correctly parse information about components with multiple content slots', async () => {
+    it('should correctly parse information about components with multiple content slots', () => {
         let banana = create();
 
-        let result = await banana({ in: './test/fixtures/components/multiple-content-slots/*.ts' });
+        let result = banana({ in: './test/fixtures/components/multiple-content-slots/*.ts' });
         let [componentFile] = Object.values(result);
         let [testComponent] = componentFile.classes as Array<ComponentInfo>;
         let [content, content2] = testComponent.content;
@@ -38,10 +38,10 @@ describe('banana-generator - components:', () => {
         expect(content2.name).to.equal('content');
     });
 
-    it('should correctly parse information about components that depend on directives', async () => {
+    it('should correctly parse information about components that depend on directives', () => {
         let banana = create();
 
-        let result = await banana({ in: './test/fixtures/components/directive-dependency/*.ts' });
+        let result = banana({ in: './test/fixtures/components/directive-dependency/*.ts' });
         let [componentFile, testDirectiveFile] = Object.values(result);
         let [testDirective] = testDirectiveFile.classes as Array<DirectiveInfo>;
         let [testComponent] = componentFile.classes as Array<ComponentInfo>;
@@ -58,10 +58,10 @@ describe('banana-generator - components:', () => {
         expect(injectedDirective.optional).to.equal(false);
     });
 
-    it('should correctly parse information about components that depend on other components', async () => {
+    it('should correctly parse information about components that depend on other components', () => {
         let banana = create();
 
-        let result = await banana({ in: './test/fixtures/components/component-dependency/*.ts' });
+        let result = banana({ in: './test/fixtures/components/component-dependency/*.ts' });
         let [otherComponentFile, testComponentFile] = Object.values(result);
         let [otherComponent] = otherComponentFile.classes as Array<ComponentInfo>;
         let [testComponent] = testComponentFile.classes as Array<ComponentInfo>;

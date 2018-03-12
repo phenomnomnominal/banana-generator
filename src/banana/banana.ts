@@ -16,10 +16,10 @@ export class Banana {
         private _logger: Logger
     ) { }
 
-    public async banana (options: BananaOptions): Promise<BananaResults> {
+    public banana (options: BananaOptions): BananaResults {
         this._logger.info('Generating component info...');
 
-        let sourceFiles = await this._fileReader.readFiles(options.in);
+        let sourceFiles = this._fileReader.readFiles(options.in);
         let files = sourceFiles
             .map(sourceFile => this._fileParser.parseFile(sourceFile))
             .filter(file => file != null) as Array<FileInfo>;
@@ -37,8 +37,8 @@ export class Banana {
 
             this._logger.info(`Writing to "${outPath}"...`);
 
-            await fs.ensureFile(outPath);
-            await fs.writeFile(outPath, JSON.stringify(results));
+            fs.ensureFileSync(outPath);
+            fs.writeFileSync(outPath, JSON.stringify(results));
         }
         return results;
     }

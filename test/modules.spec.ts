@@ -3,10 +3,10 @@ import { ClassTypeEnum, ModuleInfo } from '../src';
 import { create, expect } from './test-setup';
 
 describe('banana-generator - modules:', () => {
-    it('should correctly parse information about modules', async () => {
+    it('should correctly parse information about modules', () => {
         let banana = create();
 
-        let result = await banana({ in: './test/fixtures/modules/default/*.ts' });
+        let result = banana({ in: './test/fixtures/modules/default/*.ts' });
         let [moduleFile] = Object.values(result);
         let [testModule] = moduleFile.classes as Array<ModuleInfo>;
 
@@ -15,10 +15,10 @@ describe('banana-generator - modules:', () => {
         expect(testModule.declarations).to.deep.equal([]);
     });
 
-    it('should correctly parse information about modules when they have components', async () => {
+    it('should correctly parse information about modules when they have components', () => {
         let banana = create();
 
-        let result = await banana({ in: './test/fixtures/modules/component/*.ts' });
+        let result = banana({ in: './test/fixtures/modules/component/*.ts' });
         let [, moduleFile] = Object.values(result);
         let [testModule] = moduleFile.classes as Array<ModuleInfo>;
 
