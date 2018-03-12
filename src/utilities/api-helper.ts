@@ -3,7 +3,7 @@ import { BananaResults } from '../banana';
 import { ClassInfo, EnumInfo, FileInfo } from '../parsers';
 
 export function findClasses (api: BananaResults, name?: string): Array<ClassInfo> {
-    return findClassesFromFiles(Object.values(api));
+    return findClassesFromFiles(Object.values(api), name);
 }
 
 export function findClassesFromFiles (files: Array<FileInfo>, name?: string): Array<ClassInfo> {
